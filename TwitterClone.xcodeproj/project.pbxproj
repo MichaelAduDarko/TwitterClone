@@ -17,6 +17,7 @@
 		471F8971241B4C0500FFE78E /* ExploreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F8970241B4C0500FFE78E /* ExploreController.swift */; };
 		471F8973241B4C4E00FFE78E /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F8972241B4C4E00FFE78E /* NotificationsController.swift */; };
 		471F8975241B4C6900FFE78E /* ConversationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F8974241B4C6900FFE78E /* ConversationsController.swift */; };
+		471F8977241B608500FFE78E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471F8976241B608500FFE78E /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		471F8970241B4C0500FFE78E /* ExploreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreController.swift; sourceTree = "<group>"; };
 		471F8972241B4C4E00FFE78E /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
 		471F8974241B4C6900FFE78E /* ConversationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsController.swift; sourceTree = "<group>"; };
+		471F8976241B608500FFE78E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		471F8966241B480600FFE78E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				471F8976241B608500FFE78E /* Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				471F8973241B4C4E00FFE78E /* NotificationsController.swift in Sources */,
 				471F8975241B4C6900FFE78E /* ConversationsController.swift in Sources */,
 				471F8953241B47DF00FFE78E /* AppDelegate.swift in Sources */,
+				471F8977241B608500FFE78E /* Extensions.swift in Sources */,
 				471F8971241B4C0500FFE78E /* ExploreController.swift in Sources */,
 				471F8955241B47DF00FFE78E /* SceneDelegate.swift in Sources */,
 				471F896D241B49E000FFE78E /* MainTabController.swift in Sources */,
