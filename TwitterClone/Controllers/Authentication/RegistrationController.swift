@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class RegistrationController: UIViewController{
     
     //MARK:- Properties
     
     private let imagePicker = UIImagePickerController()
+    private var profileImage: UIImage?
     
     private let plusPhotoButton: UIButton = {
         let button = UIButton (type: .system)
@@ -20,18 +22,18 @@ class RegistrationController: UIViewController{
         button.tintColor = .white
         button.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
         return button
-       }()
+    }()
     
     private lazy var emailContainerView: UIView = {
-           let view = Utilities().inputContainerView(withImage: #imageLiteral(resourceName: "ic_mail_outline_white_2x-1"), textField: emailTextFeild )
-           return view
-       }()
-       
-       private lazy var passwordContainerView: UIView = {
-           let view = Utilities().inputContainerView(withImage: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: passwordTextFeild )
-           return view
-       }()
-       
+        let view = Utilities().inputContainerView(withImage: #imageLiteral(resourceName: "ic_mail_outline_white_2x-1"), textField: emailTextFeild )
+        return view
+    }()
+    
+    private lazy var passwordContainerView: UIView = {
+        let view = Utilities().inputContainerView(withImage: #imageLiteral(resourceName: "ic_lock_outline_white_2x"), textField: passwordTextFeild )
+        return view
+    }()
+    
     private lazy var fullnameContainerView: UIView = {
         let view = Utilities().inputContainerView(withImage: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: fullnameTextFeild )
         return view
@@ -42,16 +44,16 @@ class RegistrationController: UIViewController{
         return view
     }()
     
-       private let emailTextFeild: UITextField = {
-           let tf = Utilities().textField(withPlaceholder: "Email")
-           return tf
-       }()
-       
-       private let passwordTextFeild: UITextField = {
-           let tf = Utilities().textField(withPlaceholder: "Password")
-           tf.isSecureTextEntry = true
-           return tf
-       }()
+    private let emailTextFeild: UITextField = {
+        let tf = Utilities().textField(withPlaceholder: "Email")
+        return tf
+    }()
+    
+    private let passwordTextFeild: UITextField = {
+        let tf = Utilities().textField(withPlaceholder: "Password")
+        tf.isSecureTextEntry = true
+        return tf
+    }()
     
     private let fullnameTextFeild: UITextField = {
         let tf = Utilities().textField(withPlaceholder: "Full Name")
@@ -62,7 +64,7 @@ class RegistrationController: UIViewController{
         let tf = Utilities().textField(withPlaceholder: "Username")
         return tf
     }()
-       
+    
     private let alreadyHaveAccountButton: UIButton = {
         let button = Utilities().attributedButton("Already have an account?", " Log In")
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
@@ -87,17 +89,54 @@ class RegistrationController: UIViewController{
         super.viewDidLoad()
         configureUI()
     }
-
+    
     //MARK:- Selectors
     @objc func handleShowLogin(){
         navigationController?.popViewController(animated: true)
     }
     
     @objc func handleAddProfilePhoto(){
-       present(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc func handleRegistration(){
+        guard let profileImage = profileImage else {
+            print("DEBUG: Please select a profile image")
+            return
+        }
+        guard let email = emailTextFeild.text else {return }
+        guard let password = passwordTextFeild.text else {return }
+        guard let fullname = fullnameTextFeild.text else {return}
+        guard let username = usernameTextFeild.text else {return}
+        
+        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else {return}
+        let filename = NSUUID().uuidString
+        let storageRef = STORAGE_PROFILE_IMAGES.child(filename)
+        
+        
+        storageRef.putData(imageData, metadata: nil) { (meta, error) in
+            storageRef.downloadURL { (url, error) in
+                guard let profileImageUrl = url?.absoluteString else {return}
+                
+                
+                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                    if let error = error {
+                        print("DEBUG: Error is \(error.localizedDescription)")
+                        return
+                    }
+                    guard let uid = result?.user.uid else {return}
+                    
+                    let values = ["email": email,"username": username,"fullname": fullname, "profileImageUrl": profileImageUrl]
+                    
+                    REF_USERS.child(uid).child(uid).updateChildValues(values) { (error, ref) in
+                        print("DEBUG: Succefully Upadted user Info ")
+                    }
+                }
+                
+            }
+        }
+        
+        
         
     }
     
@@ -128,17 +167,17 @@ class RegistrationController: UIViewController{
         
         view.addSubview(alreadyHaveAccountButton)
         alreadyHaveAccountButton.anchor(left: view.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                     right: view.rightAnchor, paddingLeft: 40, paddingRight: 40)
+                                        right: view.rightAnchor, paddingLeft: 40, paddingRight: 40)
     }
 }
 
-  //MARK:-  UIImagePickerControllerDelegate
+//MARK:-  UIImagePickerControllerDelegate
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo
         info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileImage = info[.editedImage] as? UIImage else {return}
-        
+        self.profileImage = profileImage
         plusPhotoButton.layer.cornerRadius = 128 / 2
         plusPhotoButton.layer.masksToBounds = true
         plusPhotoButton.imageView?.contentMode = .scaleAspectFill

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>234452813865-p1jpkbq86b3g5cfdnh3cvciads9bo0he.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.234452813865-p1jpkbq86b3g5cfdnh3cvciads9bo0he</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDwhFDkjp66CZL8iNC5oqxOvSoA2n9zhA0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>234452813865</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.bronzy.TwitterClone</string>
+	<key>PROJECT_ID</key>
+	<string>twiterclone-a8ea7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>twiterclone-a8ea7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:234452813865:ios:9abdd36a9fde4fcd90f438</string>
+	<key>DATABASE_URL</key>
+	<string>https://twiterclone-a8ea7.firebaseio.com</string>
+</dict>
+</plist>
