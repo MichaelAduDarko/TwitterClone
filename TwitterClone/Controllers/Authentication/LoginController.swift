@@ -67,13 +67,14 @@ class LoginController: UIViewController{
     
     //MARK:- Selectors
     
-    @objc  func handleLogin(){
-        print("1234")
+    @objc func handleShowSignUp(){
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true)
+        
     }
     
-    
-    @objc func handleShowSignUp(){
-        print("sign up....")
+    @objc  func handleLogin(){
+        print("1234")
     }
     
     //MARK:- Helpers
