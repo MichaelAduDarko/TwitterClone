@@ -14,7 +14,7 @@ class MainTabController: UITabBarController {
     let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
-        button.backgroundColor = .mainBlue
+        button.backgroundColor = .twitterBlue
         button.setImage(#imageLiteral(resourceName: "new_tweet"), for: .normal)
         button.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         return button
@@ -49,16 +49,16 @@ class MainTabController: UITabBarController {
     func configureViewController(){
         
         let feed = FeedController()
-        let nav1 = templateNavigationController(image: #imageLiteral(resourceName: "home_unselected"), rootViewContoller: feed)
+        let nav1 = templateNavigationController(image: #imageLiteral(resourceName: "home"), rootViewContoller: feed)
         
         let explore = ExploreController()
-        let nav2 = templateNavigationController(image: #imageLiteral(resourceName: "search_unselected"), rootViewContoller: explore)
+        let nav2 = templateNavigationController(image: #imageLiteral(resourceName: "icons8-search-more-100"), rootViewContoller: explore)
         
         let notification = NotificationController()
-        let nav3 = templateNavigationController(image: #imageLiteral(resourceName: "like_unselected"), rootViewContoller: notification)
+        let nav3 = templateNavigationController(image: #imageLiteral(resourceName: "notification"), rootViewContoller: notification)
         
         let conversations = ConversationsController()
-        let nav4 = templateNavigationController(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x-1"), rootViewContoller: conversations)
+        let nav4 = templateNavigationController(image: #imageLiteral(resourceName: "message"), rootViewContoller: conversations)
         
         viewControllers = [nav1, nav2, nav3, nav4]
     }

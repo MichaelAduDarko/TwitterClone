@@ -8,45 +8,10 @@
 
 import UIKit
 
-extension UIColor {
-    static func rgb(red:CGFloat, green: CGFloat, blue:CGFloat) -> UIColor{
-        return UIColor.init(red: red/255, green: green/255, blue: blue/255, alpha: 1)
-    }
-    
-    static let  mainBlue = UIColor.rgb(red: 29, green: 161, blue: 242)
-    static let customRed = UIColor.rgb(red: 220, green: 78, blue: 65)
-    static let customPurple = UIColor.rgb(red: 128, green: 87, blue: 194)
-}
-
-extension UIView{
-    
-    func inputContainerView(image: UIImage, textField: UITextField) -> UIView {
-        let view = UIView()
-        let imageView = UIImageView()
-        imageView.image = image
-        imageView.alpha = 0.87
-        view.addSubview(imageView)
-        imageView.centerY(inView: view)
-        imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
-        
-        view.addSubview(textField)
-        textField.centerY(inView: view)
-        textField.anchor(left: imageView.rightAnchor, bottom: view.bottomAnchor,
-                         right: view.rightAnchor, paddingLeft: 8, paddingBottom: 8)
-        
-        let separatorView = UIView()
-        separatorView.backgroundColor = .lightGray
-        view.addSubview(separatorView)
-        separatorView.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,
-                             paddingLeft: 8, height: 0.75)
-        
-        return view
-        
-    }
-    
-    func anchor(top:NSLayoutYAxisAnchor? = nil,
-                left:NSLayoutXAxisAnchor? = nil,
-                bottom:NSLayoutYAxisAnchor? = nil,
+extension UIView {
+    func anchor(top: NSLayoutYAxisAnchor? = nil,
+                left: NSLayoutXAxisAnchor? = nil,
+                bottom: NSLayoutYAxisAnchor? = nil,
                 right: NSLayoutXAxisAnchor? = nil,
                 paddingTop: CGFloat = 0,
                 paddingLeft: CGFloat = 0,
@@ -61,8 +26,7 @@ extension UIView{
             topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
         }
         
-        if let left  = left {
-            
+        if let left = left {
             leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
         }
         
@@ -74,7 +38,7 @@ extension UIView{
             rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
         }
         
-        if let width = width{
+        if let width = width {
             widthAnchor.constraint(equalToConstant: width).isActive = true
         }
         
@@ -83,25 +47,54 @@ extension UIView{
         }
     }
     
-    func centerX(inView view: UIView){
+    func center(inView view: UIView, yConstant: CGFloat? = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yConstant!).isActive = true
     }
-    func centerY(inView view: UIView){
-        centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    
+    func centerX(inView view: UIView, topAnchor: NSLayoutYAxisAnchor? = nil, paddingTop: CGFloat? = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        if let topAnchor = topAnchor {
+            self.topAnchor.constraint(equalTo: topAnchor, constant: paddingTop!).isActive = true
+        }
+    }
+    
+    func centerY(inView view: UIView, leftAnchor: NSLayoutXAxisAnchor? = nil, paddingLeft: CGFloat? = nil, constant: CGFloat? = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant!).isActive = true
+        
+        if let leftAnchor = leftAnchor, let padding = paddingLeft {
+            self.leftAnchor.constraint(equalTo: leftAnchor, constant: padding).isActive = true
+        }
+    }
+    
+    func setDimensions(width: CGFloat, height: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(equalToConstant: width).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func addConstraintsToFillView(_ view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        anchor(top: view.topAnchor, left: view.leftAnchor,
+               bottom: view.bottomAnchor, right: view.rightAnchor)
     }
 }
 
 
-extension UITextField {
-    func textField(withPlaceholder placeholder: String, isSecureTextEntry: Bool) -> UITextField{
-        let tf = UITextField()
-        tf.borderStyle = .none
-        tf.font = UIFont.systemFont(ofSize: 16)
-        tf.textColor = .white
-        tf.keyboardAppearance = .dark
-        tf.isSecureTextEntry = isSecureTextEntry
-        tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes:
-            [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
-        return tf
+
+
+
+// MARK: - UIColor
+
+extension UIColor {
+    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
+    
+    static let twitterBlue = UIColor.rgb(red: 29, green: 161, blue: 242)
 }
