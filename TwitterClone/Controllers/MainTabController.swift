@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabController: UITabBarController {
     
@@ -26,12 +27,39 @@ class MainTabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureViewController()
-        configureUI()
+//        logUserOut()
+        view.backgroundColor = .twitterBlue
+        authenticateUserAndConfigureUI()
         
     }
     
+    //MARK:- API
+    func authenticateUserAndConfigureUI(){
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            
+            }
+        } else {
+              configureViewController()
+              configureUI()
+        }
+    }
+    
+    func logUserOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let error {
+            print("DEBUG: Failed to signout with error \(error.localizedDescription)")
+        }
+    }
+    //MARK:- selectors
+       @objc func actionButtonTapped(){
+           print("1234")
+       }
+       
     //MARK:- Helpers
     func configureUI(){
         view.addSubview(actionButton)
@@ -39,12 +67,6 @@ class MainTabController: UITabBarController {
                              paddingRight: 16, width: 56, height: 56)
         actionButton.layer.cornerRadius = 56 / 2
     }
-    
-    //MARK:- selectors
-    @objc func actionButtonTapped(){
-        print("1234")
-    }
-    
     
     func configureViewController(){
         
