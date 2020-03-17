@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController: UIViewController{
     
@@ -74,7 +75,17 @@ class LoginController: UIViewController{
     }
     
     @objc  func handleLogin(){
-        print("1234")
+        guard let email = emailTextFeild.text else {return}
+        guard let passowrd  = passwordTextFeild.text else {return}
+        
+        
+        AuthService.shared.logUserIn(withemail: email, password: passowrd) { (result, error) in
+            if let error = error {
+                print("DEBUG: Error logging in \(error.localizedDescription)")
+                return
+            }
+            print("DEBUG: Succeful login")
+        }
     }
     
     //MARK:- Helpers
