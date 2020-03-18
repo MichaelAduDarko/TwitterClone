@@ -25,7 +25,7 @@ struct AuthService {
         
     }
     
-    func registerUser(credentials: AuthCredentials, completion: @escaping(Error? , DatabaseReference)-> Void)  {
+    func registerUser(credentials: AuthCredentials, completion: @escaping(Error? , DatabaseReference?)-> Void)  {
         let email = credentials.email
         let password = credentials.password
         
@@ -38,26 +38,33 @@ struct AuthService {
                let storageRef = STORAGE_PROFILE_IMAGES.child(filename)
         
         
-        storageRef.putData(imageData, metadata: nil) { (meta, error) in
-            storageRef.downloadURL { (url, error) in
-                guard let profileImageUrl = url?.absoluteString else {return}
-                
-                
-                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                    if let error = error {
-                        print("DEBUG: Error is \(error.localizedDescription)")
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            guard let uid = result?.user.uid else {return}
+            
+            if let error = error {
+                print("DEBUG: Error is \(error.localizedDescription)")
+                return
+            }
+        
+            storageRef.putData(imageData, metadata: nil) { (meta, error) in
+                storageRef.downloadURL { (imageURL, error) in
+                    guard error == nil else {
+                        completion(error, nil)
                         return
                     }
-                    guard let uid = result?.user.uid else {return}
                     
-                    let values = ["email": email,"username": username,"fullname": fullname, "profileImageUrl": profileImageUrl]
-                    
-                    REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: completion)
-                    
+                    guard let profileImageURL = imageURL?.absoluteString else {
+                        completion(error, nil)
+                        return
+                    }
+                    let values: [String: String] = ["email": email,"username": username,"fullname": fullname, "profileImageUrl": profileImageURL]
+                    REF_USERS.child(uid).updateChildValues(values) { (error, ref) in
+                        completion(error, ref)
                     }
                 }
-                
             }
         }
     }
+}
 
