@@ -27,24 +27,31 @@ class MainTabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        logUserOut()
+//        logUserOut()
         view.backgroundColor = .twitterBlue
         authenticateUserAndConfigureUI()
         
     }
     
     //MARK:- API
+    
+    func fetchUser(){
+        UserService.shared.fetchUser()
+    }
+    
+    
     func authenticateUserAndConfigureUI(){
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let nav = UINavigationController(rootViewController: LoginController())
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
-            
+                
             }
         } else {
-              configureViewController()
-              configureUI()
+            configureViewController()
+            configureUI()
+            fetchUser()
         }
     }
     
@@ -57,10 +64,10 @@ class MainTabController: UITabBarController {
         }
     }
     //MARK:- selectors
-       @objc func actionButtonTapped(){
-           print("1234")
-       }
-       
+    @objc func actionButtonTapped(){
+        print("1234")
+    }
+    
     //MARK:- Helpers
     func configureUI(){
         view.addSubview(actionButton)
