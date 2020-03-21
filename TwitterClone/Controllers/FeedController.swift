@@ -45,7 +45,8 @@ class FeedController: UIViewController {
         let profileImageView = UIImageView()
         profileImageView.setDimensions(width: 32, height: 32)
         profileImageView.layer.cornerRadius = 32 / 2
-        profileImageView.layer.masksToBounds = true 
+        profileImageView.layer.masksToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
         
        
         profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
