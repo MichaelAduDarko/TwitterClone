@@ -22,8 +22,16 @@ class FeedController: UIViewController {
      override func viewDidLoad() {
          super.viewDidLoad()
         configureUI()
+        fetchTweet()
         
      }
+    
+    //MARK:- API
+    func fetchTweet(){
+        TweetService.shared.fetchTweets { tweets in
+            print("DEBUG: Tweets are \(tweets)")
+        }
+    }
      
     //MARK:- Helpers
     
